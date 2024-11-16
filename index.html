@@ -219,7 +219,7 @@
             id="ii9tv">Trân trọng kính mời</div>
           <div data-gjs-type="text" draggable="true" data-highlightable="1" class="spec-guestname" id="id08a"><span
               data-gjs-type="text" draggable="true" data-highlightable="1" data-id="invitation" id="invitation"
-              class="font-heading color-1 guest-name">{{__guest_name__}}</span></div>
+              class="font-heading color-1 guest-name"></span></div>
         </div>
         <div data-gjs-type="text" draggable="true" data-highlightable="1" data-editable="true"
           class="date inner-col text-center mx-auto font-para color-1 line-height-normal" id="iov7t">
@@ -2587,7 +2587,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     if (userId) {
-      fetch('http://wedding.tunghang.site/api/content', {
+      fetch('http://127.0.0.1:5000/api/content', {
         method: 'GET',
         headers: {
           'X-User-ID': userId
@@ -2615,7 +2615,7 @@
               document.querySelector('#ixa3k').textContent = data.timeline.third.content;
           }
           if (data.name) {
-            document.querySelector('.font-heading.color-1.guest-name').textContent = data.name;
+            document.querySelector('#invitation').textContent = data.name.replace(/ /g, '\u00A0');
             document.getElementById('invitation').style.display = 'block';
           }
         })
