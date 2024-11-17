@@ -342,7 +342,7 @@
           <div data-gjs-type="text" draggable="true" data-highlightable="1" data-editable="true"
             class="story-text font-para line-height-normal cke_editable cke_editable_inline cke_contents_ltr" id="i82qa"
             contenteditable="false" spellcheck="false">
-            <p>Chúng mình luôn tin vào định mệnh, vì thật may vào lúc phù hợp nhất, hai đ���a đã xuất hiện trong cuộc đời nhau.</p><br>
+            <p>Chúng mình luôn tin vào định mệnh, vì thật may vào lúc phù hợp nhất, hai đứa đã xuất hiện trong cuộc đời nhau.</p><br>
           <p>Và hôm nay, chúng mình đã trở thành vợ chồng của nhau – một khởi đầu mới, một lời hứa cùng nhau đi đến cuối con đường.</p><br>
 
             <p>Từ hôm nay, không còn chỉ là “cậu và tớ” nữa, mà là “chúng ta.” Chúng ta sẽ cùng nhau vượt qua mọi khó khăn, cùng nhau trưởng thành và xây đắp tổ ấm này. Mình mong rằng mỗi ngày bên cậu đều là một ngày thật đẹp, và chúng mình sẽ cùng nhau viết tiếp những trang hạnh phúc dài mãi về sau.</p>
@@ -411,38 +411,57 @@
 
         @media screen and (max-width: 768px) {
           .story-container {
-            width: 90%;
+            top: 18%;
+            gap: 2rem;
+            width: 95%;
             padding: 2rem;
             flex-direction: column;
           }
 
           .story-img {
+            order: -1; /* This moves the image to the top */
             margin-bottom: 2rem;
+          }
+
+          .story-img img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+          }
+
+          .story-wrap-content {
+            order: 1; /* This moves the text content below */
           }
 
           .story-title {
             font-size: 22px;
             text-align: center;
+            margin-bottom: 1.5rem;
           }
 
           .story-text {
-            font-size: 14px;
-            text-align: center;
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: justify;
           }
         }
 
         @media screen and (max-width: 480px) {
-          .t18-story {
-            padding: 1rem;
+          .story-container {
+            width: 100%;
+            padding: 1.5rem;
           }
 
-          .story-container {
-            width: 95%;
-            padding: 1.5rem;
+          .story-img img {
+            max-height: 300px;
           }
 
           .story-title {
             font-size: 20px;
+          }
+
+          .story-text {
+            font-size: 14px;
           }
         }
       </style>
@@ -889,38 +908,19 @@
         }
       </style>
       <style>
-        :root {
-          --font-1: "Montagu Slab";
-          --font-2: "Biancha";
-          --color-1: #3a5141;
-          --color-2: #fdfdfd;
+        * {
+          box-sizing: border-box;
         }
       </style>
       <style>
-        * {
-          padding: 0;
+        body {
           margin: 0;
         }
       </style>
       <style>
-        .font-Notera {
-          font-family: "Notera";
-        }
-      </style>
-      <style>
-        .font-NoteraLight {
-          font-family: "Notera Light";
-        }
-      </style>
-      <style>
-        .font-para {
-          font-family: var(--font-1);
-        }
-      </style>
-      <style>
-        .font-heading {
-          font-family: var(--font-2);
-        }
+        :root {
+          --font-1: "Montagu Slab";
+          --font-2: "Biancha";
       </style>
       <style>
         .font-heading p,
