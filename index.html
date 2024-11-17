@@ -173,6 +173,31 @@
       font-size: 3rem; /* Adjust the font size as needed */
       font-weight: bold; /* Add bold styling */
     }
+
+    .t18-intro {
+      background-image: url("https://image.namtay.vn/fit/1920/images/wedsite/ZrUdQH0fsu_735654A4-79F0-4254-849A-5D43A364D525.jpeg");
+      background-size: cover;
+      background-position: center;
+    }
+    .t18-intro {
+      background-image: url("https://image.namtay.vn/fit/1920/images/wedsite/ZrUdQH0fsu_735654A4-79F0-4254-849A-5D43A364D525.jpeg");
+      background-size: cover;
+      background-position: center;
+    }
+
+    @media only screen and (max-width: 1194px) {
+      .t18-intro {
+        background-size: contain;
+        background-position: center top;
+      }
+    }
+
+    @media only screen and (max-width: 768px) {
+      .t18-intro {
+        background-size: cover;
+        background-position: center;
+      }
+    }
   </style>
   <div data-gjs-type="wrapper" data-highlightable="1" titlefontid="47" paragraphfontid="34" id="ibhh" draggable="true">
     <link data-gjs-type="text" draggable="true" data-highlightable="1" rel="stylesheet"
@@ -2613,6 +2638,13 @@
 
               document.querySelector('#il7l5').textContent = data.timeline.third.time;
               document.querySelector('#ixa3k').textContent = data.timeline.third.content;
+
+              var image1 = document.querySelector('#i6xfh').src;
+              var image2 = document.querySelector('#i9nfl').src;
+
+              document.querySelector('#i6xfh').src = image2
+              document.querySelector('#i9nfl').src = image1
+
           }
           if (data.name) {
             document.querySelector('#invitation').textContent = data.name.replace(/ /g, '\u00A0');
