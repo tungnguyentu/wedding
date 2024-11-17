@@ -1047,6 +1047,16 @@
         }
       </style>
       <style>
+        * {
+          box-sizing: border-box;
+        }
+      </style>
+      <style>
+        body {
+          margin: 0;
+        }
+      </style>
+      <style>
         :root {
           --font-1: "Montagu Slab";
           --font-2: "Biancha";
@@ -2919,6 +2929,26 @@
     }
     detectDevice();
   </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Polyfill for IntersectionObserver
+    if (!('IntersectionObserver' in window)) {
+      var script = document.createElement('script');
+      script.src = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+      document.head.appendChild(script);
+    }
+
+    AOS.init({
+      duration: 1000,
+      easing: 'linear',
+      once: true
+    });
+
+    window.addEventListener('resize', function() {
+      AOS.refresh();
+    });
+  });
+</script>
 </body>
 
 </html>
