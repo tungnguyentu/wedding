@@ -453,12 +453,17 @@
         margin-right: 10px;
       }
     }
+
+    /* Add these styles to maintain the final state of animations */
+    .animate__animated {
+      animation-fill-mode: both;
+    }
+
+    /* Add this style to ensure animations do not disappear */
+    .animate__animated {
+      animation-fill-mode: forwards;
+    }
   </style>
-  <div data-gjs-type="wrapper" data-highlightable="1" titlefontid="47" paragraphfontid="34" id="ibhh" draggable="true">
-    <link data-gjs-type="text" draggable="true" data-highlightable="1" rel="stylesheet"
-      href="https://namtay.vn/css/namtay.css" id="i9hf">
-    <link data-gjs-type="text" draggable="true" data-highlightable="1" rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" id="i70r">
     <link data-gjs-type="text" draggable="true" data-highlightable="1" href="https://unpkg.com/aos@2.3.1/dist/aos.css"
       rel="stylesheet" id="i79j">
     <section data-gjs-type="widget" data-highlightable="1" data-widget="header" data-fixed="true"
