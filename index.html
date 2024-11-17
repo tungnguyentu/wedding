@@ -322,35 +322,25 @@
         </div>
       </div>
     </section>
-    <section data-gjs-type="widget" data-highlightable="1" data-widget="story" data-background-updatable="true"
-      data-background-image="/img/theme17/story-bg.png" data-max-width="1920"
-      class="t18-story relative grid place-center" id="igwy9" draggable="true">
-      <div data-gjs-type="text" draggable="true" data-highlightable="1"
-        class="story-container relative flex mx-auto justify-center items-center" id="irj8n">
-        <div data-gjs-type="text" draggable="true" data-highlightable="1" data-aos="fade-right" data-aos-duration="1000"
-          data-aos-easing="linear" class="story-img aos-init aos-animate" id="ie3iq"><img data-gjs-type="image"
-            data-max-width="500" data-editable="true"
-            src="https://image.namtay.vn/fit/500/images/wedsite/LSy14G3mAp_CQD01088-(1).JPG" alt=""
-            class="block image-fit" id="ia48r"></div>
-        <div data-gjs-type="text" draggable="true" data-highlightable="1" data-aos="fade-left" data-aos-duration="1000"
-          data-aos-delay="300" data-aos-easing="linear" class="story-wrap-content aos-init aos-animate" id="irhyz">
-          <div data-gjs-type="text" draggable="true" data-highlightable="1" data-editable="true"
-            class="story-title font-para line-height-normal cke_editable cke_editable_inline cke_contents_ltr"
-            id="i335m" contenteditable="false" spellcheck="false">
-            <p>Khởi Đầu Mới Của Chúng Mình</p>
+    <section data-gjs-type="widget" data-widget="story" class="t18-story relative grid place-center" id="igwy9">
+      <div data-gjs-type="text" class="story-container" id="irj8n">
+        <div class="story-content-wrapper">
+          <div data-aos="fade-right" data-aos-duration="1000" data-aos-easing="linear" class="story-img aos-init aos-animate" id="ie3iq">
+            <img data-max-width="500" src="https://image.namtay.vn/fit/500/images/wedsite/LSy14G3mAp_CQD01088-(1).JPG" alt="" class="block image-fit" id="ia48r">
           </div>
-          <div data-gjs-type="text" draggable="true" data-highlightable="1" data-editable="true"
-            class="story-text font-para line-height-normal cke_editable cke_editable_inline cke_contents_ltr" id="i82qa"
-            contenteditable="false" spellcheck="false">
-            <p>Chúng mình luôn tin vào định mệnh, vì thật may vào lúc phù hợp nhất, hai đứa đã xuất hiện trong cuộc đời nhau.</p><br>
-          <p>Và hôm nay, chúng mình đã trở thành vợ chồng của nhau – một khởi đầu mới, một lời hứa cùng nhau đi đến cuối con đường.</p><br>
-
-            <p>Từ hôm nay, không còn chỉ là “cậu và tớ” nữa, mà là “chúng ta.” Chúng ta sẽ cùng nhau vượt qua mọi khó khăn, cùng nhau trưởng thành và xây đắp tổ ấm này. Mình mong rằng mỗi ngày bên cậu đều là một ngày thật đẹp, và chúng mình sẽ cùng nhau viết tiếp những trang hạnh phúc dài mãi về sau.</p>
+          <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300" data-aos-easing="linear" class="story-wrap-content aos-init aos-animate" id="irhyz">
+            <div class="story-title font-para line-height-normal" id="i335m">
+              <p>Khởi Đầu Mới Của Chúng Mình</p>
+            </div>
+            <div class="story-text font-para line-height-normal" id="i82qa">
+              <p>Chúng mình luôn tin vào định mệnh, vì thật may vào lúc phù hợp nhất, hai đứa đã xuất hiện trong cuộc đời nhau.</p><br>
+              <p>Và hôm nay, chúng mình đã trở thành vợ chồng của nhau – một khởi đầu mới, một lời hứa cùng nhau đi đến cuối con đường.</p><br>
+              <p>Từ hôm nay, không còn chỉ là “cậu và tớ” nữa, mà là “chúng ta.” Chúng ta sẽ cùng nhau vượt qua mọi khó khăn, cùng nhau trưởng thành và xây đắp tổ ấm này. Mình mong rằng mỗi ngày bên cậu đều là một ngày thật đẹp, và chúng mình sẽ cùng nhau viết tiếp những trang hạnh phúc dài mãi về sau.</p>
+            </div>
           </div>
         </div>
       </div>
       <style>
-        /* Existing story section styles */
         .t18-story {
           background-image: url("/img/theme17/story-bg.png");
           background-size: cover;
@@ -358,33 +348,44 @@
           width: 100%;
           min-height: 100vh;
           padding: 2rem;
+          position: relative;
         }
 
         .story-container {
           background-color: #cdd8c2;
-          width: 68%;
+          width: 80%;
           max-width: 1440px;
-          padding: 6rem;
+          padding: 4rem;
+          margin: auto;
+        }
+
+        .story-content-wrapper {
+          display: flex;
           gap: 3rem;
+          align-items: flex-start;
         }
 
         .story-img {
           flex: 1;
+          max-width: 50%;
         }
 
         .story-img img {
           width: 100%;
           height: auto;
           object-fit: cover;
+          border-radius: 4px;
         }
 
         .story-wrap-content {
           flex: 1;
+          max-width: 50%;
         }
 
         .story-title {
           font-size: 28px;
           margin-bottom: 2rem;
+          line-height: 1.3;
         }
 
         .story-text {
@@ -392,11 +393,13 @@
           line-height: 1.6;
         }
 
-        /* Responsive styles */
         @media screen and (max-width: 1024px) {
           .story-container {
-            width: 80%;
-            padding: 4rem;
+            width: 90%;
+            padding: 3rem;
+          }
+
+          .story-content-wrapper {
             gap: 2rem;
           }
 
@@ -411,26 +414,26 @@
 
         @media screen and (max-width: 768px) {
           .story-container {
-            top: 18%;
-            gap: 2rem;
             width: 95%;
             padding: 2rem;
+          }
+
+          .story-content-wrapper {
             flex-direction: column;
           }
 
+          .story-img,
+          .story-wrap-content {
+            max-width: 100%;
+          }
+
           .story-img {
-            order: -1; /* This moves the image to the top */
             margin-bottom: 2rem;
           }
 
           .story-img img {
-            width: 100%;
             max-height: 400px;
-            object-fit: cover;
-          }
-
-          .story-wrap-content {
-            order: 1; /* This moves the text content below */
+            width: 100%;
           }
 
           .story-title {
@@ -441,12 +444,15 @@
 
           .story-text {
             font-size: 16px;
-            line-height: 1.6;
             text-align: justify;
           }
         }
 
         @media screen and (max-width: 480px) {
+          .t18-story {
+            padding: 1rem;
+          }
+
           .story-container {
             width: 100%;
             padding: 1.5rem;
