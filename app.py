@@ -8,11 +8,12 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-client = MongoClient(f'mongodb://adminUser:HaNi2@@0188@103.107.182.242:27017/')
+client = MongoClient(f'mongodb://admin:HANOI21@103.107.182.242:27017/')
 db = client['wedding']
 collection = db['rsvp']
 
 DATA = {
+    "123ccc9e": "Chị   Thảo",
     "6c0378bf": "Chị   Vân   thương   mến",
     "f47e16b2": "Gia   đình   cô   Tuyết   Nhung",
     "3e4a24c8": "Em   Đức",
@@ -71,38 +72,11 @@ def rsvp():
         return jsonify({'message': 'Invalid ID'}), 400
     name = DATA[user_id]
     
-    # # Store in MongoDB
-    # if collection.find_one({'user_id': user_id}):
-    #     collection.update_one({'user_id': user_id}, {'$set': {'rsvp': rsvp}})
-    # else:
-    #     collection.insert_one({'user_id': user_id, 'name': name, 'rsvp': rsvp})
-    
-    # Write to file
-    rsvp_entry = {'user_id': user_id, 'name': name, 'rsvp': rsvp}
-    try:
-        # Read existing data
-        try:
-            with open('rsvp_data.json', 'r') as f:
-                file_data = json.load(f)
-        except FileNotFoundError:
-            file_data = []
-        
-        # Update or append entry
-        updated = False
-        for i, entry in enumerate(file_data):
-            if entry['user_id'] == user_id:
-                file_data[i] = rsvp_entry
-                updated = True
-                break
-        if not updated:
-            file_data.append(rsvp_entry)
-        
-        # Write back to file
-        with open('rsvp_data.json', 'w') as f:
-            json.dump(file_data, f, indent=2)
-            
-    except Exception as e:
-        print(f"Error writing to file: {e}")
+    # Store in MongoDB
+    if collection.find_one({'user_id': user_id}):
+        collection.update_one({'user_id': user_id}, {'$set': {'rsvp': rsvp}})
+    else:
+        collection.insert_one({'user_id': user_id, 'name': name, 'rsvp': rsvp})
     
     return jsonify({'message': 'RSVP received', 'data': data}), 200
 
