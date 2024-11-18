@@ -10,6 +10,7 @@
   <meta property="og:title" content="Tùng & Hằng Wedding">
   <meta property="og:description" content="Save the date: 26.11.2024 - Tùng & Hằng Wedding">
   <meta property="og:image" content="logo.jpg">
+  <meta property="og:url" content="https://wedding.tunghang.site?id=">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Tùng & Hằng Wedding">
   <link rel="icon" type="image/png" href="logo.jpg"/>
@@ -37,6 +38,16 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get('id');
+      if (userId) {
+        const ogUrlMeta = document.querySelector('meta[property="og:url"]');
+        ogUrlMeta.setAttribute('content', `https://wedding.tunghang.site?id=${userId}`);
+      }
+    });
+  </script>
 </head>
 
 <body data-aos-easing="ease" data-aos-duration="400" data-aos-delay="0">
@@ -2611,53 +2622,7 @@
           --font-2: "Great Vibes";
         }
       </style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
-      <style></style>
+
     </div>
     <div id="gjs-css-rules-992"></div>
     <div id="gjs-css-rules-768"></div>
