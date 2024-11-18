@@ -58,6 +58,7 @@ DATA = {
     "d29c7a85": "Vợ   chồng   anh   Huy",
     "2b4b8b4a": "Bạn   Phan   Ánh",
     "f9c9e7c7": "Tập   thể   nhóm   Tet's   Holiday",
+    "aud92738": "Vợ   chồng   bạn   Tấm",
 }
 
 @app.route('/api/rsvp', methods=['POST'])
