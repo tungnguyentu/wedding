@@ -8,12 +8,12 @@ def export_to_csv():
 
     cursor = collection.find({})
     with open('rsvp_data.csv', 'w', newline='') as csvfile:
-        fieldnames = ['name', 'tel', 'rsvp']
+        fieldnames = ['user_id','name', 'rsvp']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         for document in cursor:
-            writer.writerow({'Tên': document['name'], 'SDT': document['tel'], 'RESVP': document['rsvp']})
+            writer.writerow({'user_id': document['user_id'],'name': document['name'], 'rsvp': document['rsvp']})
 
 if __name__ == '__main__':
     export_to_csv()

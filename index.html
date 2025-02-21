@@ -5,8 +5,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Tùng & Hằng Wedding</title>
-  
-  <!-- Social Media Meta Tags -->
+
   <meta property="og:title" content="Tùng & Hằng Wedding - Save the date: 26.11.2024">
   <meta property="og:description" content="Trân trọng kính mời bạn đến dự lễ cưới của chúng mình">
   <meta property="og:image:width" content="1200">
@@ -2647,7 +2646,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     if (userId) {
-      fetch('https://wedding.tunghang.site/api/content', {
+      fetch('http://127.0.0.1:5004/api/content', {
         method: 'GET',
         headers: {
           'X-User-ID': userId
@@ -2682,6 +2681,7 @@
 
           }
           if (data.name) {
+            console.log(data.name);
             document.querySelector('#invitation').textContent = data.name.replace(/ /g, '\u00A0');
             document.getElementById('invitation').style.display = 'block';
           }

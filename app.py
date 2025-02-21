@@ -8,9 +8,9 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-client = MongoClient(f'mongodb://admin:HANOI21@103.107.182.242:27017/')
-db = client['wedding']
-collection = db['rsvp']
+client = MongoClient(f"mongodb://localhost:27017/")
+db = client["wedding"]
+collection = db["rsvp"]
 
 DATA = {
     "123ccc9e": "Chị   Thảo",
@@ -61,57 +61,118 @@ DATA = {
     "2b4b8b4a": "Bạn   Phan   Ánh",
     "f9c9e7c7": "Tập   thể   nhóm   Tet's   Holiday",
     "aud92738": "Vợ   chồng   bạn   Tấm",
+    '58c806': 'Bạn   Thơm',
+    '61dc1b': 'Bạn   Nhàn',
+    '349a34': 'Bạn   Thu',
+    '34511c': 'Bạn   Phương',
+    '66efb7': 'Bạn   Nga',
+    '9a271f': 'Bạn   Quang',
+    '566d7a': 'Bạn   Em   Minh',
+    '065547': 'Bạn   Trần   Huyền',
+    'f1b16b': 'Bạn   Phạm   Huyền',
+    '997ac8': 'Bạn   Hướng',
+    '3ad63a': 'Bạn   Thuỷ',
+    '2cbdd2': 'Bạn   Đức',
+    'aae030': 'Bạn   Hà   Huyền',
+    'a5c3b5': 'Bạn   Na',
+    '09d4c3': 'Bạn   Huệ',
+    '104c8a': 'Bạn   Minh',
+    '8e6cf9': 'Bạn   Lý'
 }
 
-@app.route('/api/rsvp', methods=['POST'])
+DATA2 = {
+    "05bf96": "anh   Huy",
+    "075292": "anh   Khánh",
+    "104086": "bạn   Hà",
+    "1ffd70": "cô   Mai",
+    "216375": "bạn   Nam",
+    "25b356": "bạn   Tú",
+    "26d5e7": "bạn   Thảo   Anh",
+    "2a42f7": "bạn   Minh   Hoàng",
+    "2a59c3": "bạn   Cường",
+    "2d9a19": "anh   Duy",
+    "36a8c2": "bạn   Long   và   người   thương",
+    "38e3b2": "bạn   An",
+    "3cb6da": "anh   Dũng",
+    "4df6f4": "bạn   Kim   Long",
+    "6344f3": "bạn   Quang   Hiếu",
+    "64a279": "anh   Thắng",
+    "6a33b4": "bạn   Thịnh   và   người   thương",
+    "6e5a99": "chú   Hiếu",
+    "6ed2db": "bạn   Quân",
+    "8314cf": "chị   Trâm",
+    "865980": "bạn   Châu",
+    "873531": "bạn   Việt   Hoàng",
+    "8b297c": "anh   Tùng   Anh",
+    "a307c4": "bạn   Sơn   Tùng",
+    "ace250": "bạn   Tất   Đạt",
+    "add218": "bạn   Thuý",
+    "afbeb2": "bạn   Bảo",
+    "c1c6c9": "anh   Vinh",
+    "cf8841": "bạn   Linh",
+    "d88054": "bạn   Minh",
+    "e0745f": "bạn   Minh   Hiếu",
+    "e5a5df": "bạn   Huy   Hoàng",
+    "eb1bb0": "bạn   Hoài   Anh",
+    "eef286": "bạn   Phương   Tùng   và   người   thương",
+    "f1f393": "Gia   đình   bạn   Ngọc   Quỳnh",
+}
+
+
+@app.route("/api/rsvp", methods=["POST"])
 def rsvp():
     data = request.get_json()
-    user_id = data.get('id')
-    rsvp = data.get('rsvp')
-    if user_id not in DATA:
-        return jsonify({'message': 'Invalid ID'}), 400
-    name = DATA[user_id]
-    
+    user_id = data.get("id")
+    rsvp = data.get("rsvp")
+    if user_id in DATA:
+        name = DATA[user_id]
+    elif user_id in DATA2:
+        name = DATA2[user_id]
+
     # Store in MongoDB
-    if collection.find_one({'user_id': user_id}):
-        collection.update_one({'user_id': user_id}, {'$set': {'rsvp': rsvp}})
+    if collection.find_one({"user_id": user_id}):
+        collection.update_one({"user_id": user_id}, {"$set": {"rsvp": rsvp}})
     else:
-        collection.insert_one({'user_id': user_id, 'name': name, 'rsvp': rsvp})
-    
-    return jsonify({'message': 'RSVP received', 'data': data}), 200
+        collection.insert_one({"user_id": user_id, "name": name, "rsvp": rsvp})
+
+    return jsonify({"message": "RSVP received", "data": data}), 200
 
 
-@app.route('/api/content', methods=['GET'])
+@app.route("/api/content", methods=["GET"])
 def content():
-    user_id = request.headers.get('X-User-ID')
-    if user_id not in DATA:
-        return jsonify({'message': 'Invalid ID'}), 400
-    name = DATA[user_id]
-    title = 'VÀO LÚC 17 GIỜ 00, THỨ HAI'
-    location = 'THÔN THƯỢNG LẠP - XÃ TÂN TIẾN - VĨNH TƯỜNG - VĨNH PHÚC'
-    date = '25 . 11 . 2024'
-    timeline = {
-        'first': {
-            'time': '17:00 ngày 25/11',
-            'content': 'Khai tiệc'
-        },
-        'second': {
-            'time': '05:00 ngày 26/11',
-            'content': 'Lễ đính hôn'
-        },
-        'third':{
-            'time': '06:00 ngày 26/11',
-            'content': 'Lễ rước dâu'
-        }
-    }
-    return jsonify({
-        'name': name,
-        'title': title,
-        'location': location,
-        'date': date,
-        'timeline': timeline
-    }), 200
+    user_id = request.headers.get("X-User-ID")
+    title = None
+    location = None
+    date = None
+    timeline = None
+    name = None
+    if user_id in DATA:
+        name = DATA[user_id]
+        if name:
+            title = "VÀO LÚC 17 GIỜ 00, THỨ HAI"
+            location = "THÔN THƯỢNG LẠP - XÃ TÂN TIẾN - VĨNH TƯỜNG - VĨNH PHÚC"
+            date = "25 . 11 . 2024"
+            timeline = {
+                "first": {"time": "17:00 ngày 25/11", "content": "Khai tiệc"},
+                "second": {"time": "05:00 ngày 26/11", "content": "Lễ đính hôn"},
+                "third": {"time": "06:00 ngày 26/11", "content": "Lễ rước dâu"},
+            }
+    if user_id in DATA2:
+        name = DATA2[user_id]
+
+    return (
+        jsonify(
+            {
+                "name": name,
+                "title": title,
+                "location": location,
+                "date": date,
+                "timeline": timeline,
+            }
+        ),
+        200,
+    )
 
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    app.run(debug=True, port=5004)
