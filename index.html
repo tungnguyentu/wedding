@@ -2646,7 +2646,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     if (userId) {
-      fetch('http://127.0.0.1:5004/api/content', {
+      fetch('http://103.107.182.242:5004/api/content', {
         method: 'GET',
         headers: {
           'X-User-ID': userId

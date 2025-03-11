@@ -27,6 +27,9 @@ sudo systemctl enable mongodb
 
 # Create web directory
 sudo mkdir -p /var/www/wedding
+# Create log directory for Gunicorn
+sudo mkdir -p /var/log/gunicorn
+sudo chown -R www-data:www-data /var/log/gunicorn
 ```
 
 ### 2. Clone the repository and set up the application
@@ -54,7 +57,6 @@ source venv/bin/activate
 
 # Install Python dependencies
 pip install -r requirements.txt
-pip install gunicorn
 ```
 
 ### 4. Configure Nginx
@@ -97,7 +99,7 @@ User=www-data
 Group=www-data
 WorkingDirectory=/var/www/wedding
 Environment="PATH=/var/www/wedding/venv/bin"
-ExecStart=/var/www/wedding/venv/bin/gunicorn --bind 127.0.0.1:5004 app:app
+ExecStart=/var/www/wedding/venv/bin/gunicorn --config /var/www/wedding/gunicorn_config.py app:app
 
 [Install]
 WantedBy=multi-user.target
@@ -123,7 +125,25 @@ sudo certbot --nginx -d wedding.example.com
 # This will modify your Nginx configuration automatically
 ```
 
-### 7. Test everything
+### 7. Running Gunicorn Manually (if needed)
+
+If you need to run Gunicorn manually for testing or development:
+
+```bash
+# Navigate to your application directory
+cd /var/www/wedding
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Run using the config file
+gunicorn --config gunicorn_config.py app:app
+
+# Or run with command-line options
+gunicorn --bind 127.0.0.1:5004 app:app --workers 3
+```
+
+### 8. Test everything
 
 Visit your domain in a web browser to ensure the website is working properly. Test the RSVP functionality to make sure the API is working.
 
@@ -135,6 +155,10 @@ Visit your domain in a web browser to ensure the website is working properly. Te
 # Nginx logs
 sudo tail -f /var/log/nginx/error.log
 sudo tail -f /var/log/nginx/access.log
+
+# Gunicorn logs
+sudo tail -f /var/log/gunicorn/error.log
+sudo tail -f /var/log/gunicorn/access.log
 
 # Application logs
 sudo journalctl -u wedding.service

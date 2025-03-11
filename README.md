@@ -31,10 +31,17 @@ pip install -r requirements.txt
 2. Run the Flask backend:
 
 ```bash
+# Using Flask development server
 python app.py
+
+# OR using the start script
+./start.sh
+
+# OR using Gunicorn (more like production environment)
+./start.sh gunicorn
 ```
 
-This will start the Flask server at http://localhost:5004.
+This will start the server at http://localhost:5004.
 
 ### Serve the Frontend
 
@@ -58,6 +65,20 @@ For production deployment on a server:
    - API requests proxied to a Gunicorn instance running the Flask application
    - MongoDB database for storing RSVP responses
 
+### Using Gunicorn
+
+Gunicorn (Green Unicorn) is a Python WSGI HTTP Server for UNIX. It's a pre-fork worker model, ported from Ruby's Unicorn project. It supports various worker types and is designed to be robust for production environments.
+
+To run the application with Gunicorn:
+
+```bash
+# Using the configuration file
+gunicorn --config gunicorn_config.py app:app
+
+# OR directly from command line
+gunicorn --bind 127.0.0.1:5004 app:app --workers 3
+```
+
 ## Export RSVP Data to CSV
 
 To export RSVP data to CSV:
@@ -74,6 +95,8 @@ This will generate an `rsvp_data.csv` file with all the RSVP responses from the 
 - `index.html` - Main wedding website
 - `nginx/` - Nginx configuration for production deployment
 - `requirements.txt` - Python dependencies
+- `gunicorn_config.py` - Configuration for Gunicorn WSGI server
+- `start.sh` - Helper script to start the application
 
 ## Next Steps
 1. Define project requirements
