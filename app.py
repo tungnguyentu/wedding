@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 # Enable CORS for all routes with proper configuration
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/api/*": {"origins": "*", "supports_credentials": True, "methods": ["GET", "POST", "OPTIONS"]}})
 
 client = MongoClient(f"mongodb://localhost:27017/")
 db = client["wedding"]

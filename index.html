@@ -2646,11 +2646,13 @@
     const urlParams = new URLSearchParams(window.location.search);
     const userId = urlParams.get('id');
     if (userId) {
-      fetch('http://127.0.0.1:5000/api/content', {
+      fetch('https://wedding.tunghang.site/api/content', {
         method: 'GET',
         headers: {
           'X-User-ID': userId
-        }
+        },
+        credentials: 'include',
+        mode: 'cors'
       })
         .then(response => response.json())
         .then(data => {
