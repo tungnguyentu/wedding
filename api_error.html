@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Debug Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #e74c3c;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .debug-section {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .success {
+            color: #27ae60;
+        }
+        .error {
+            color: #e74c3c;
+        }
+        pre {
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Debug Page</h1>
+        
+        <div class="debug-section">
+            <h2>Configuration</h2>
+            <p>API endpoint: <span id="endpoint">/api</span></p>
+            <p>Server: <span id="server">Nginx -> Gunicorn -> Flask</span></p>
+        </div>
+
+        <div class="debug-section">
+            <h2>Test Content API</h2>
+            <input type="text" id="userId" placeholder="Enter User ID (e.g., 123ccc9e)" value="123ccc9e">
+            <button onclick="testContentApi()">Test Content API</button>
+            
+            <h3>Response:</h3>
+            <pre id="contentResponse">Results will appear here...</pre>
+        </div>
+
+        <div class="debug-section">
+            <h2>Test RSVP API</h2>
+            <input type="text" id="rsvpUserId" placeholder="Enter User ID" value="123ccc9e">
+            <button onclick="testRsvpApi()">Test RSVP API</button>
+            
+            <h3>Response:</h3>
+            <pre id="rsvpResponse">Results will appear here...</pre>
+        </div>
+
+        <div class="debug-section">
+            <h2>Connection Test</h2>
+            <button onclick="testConnection()">Test Connection</button>
+            <div id="connectionResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test Content API
+        function testContentApi() {
+            const userId = document.getElementById('userId').value;
+            const resultElement = document.getElementById('contentResponse');
+            resultElement.innerText = 'Loading...';
+            
+            fetch('/api/content', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-User-ID': userId
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultElement.innerText = JSON.stringify(data, null, 2);
+                resultElement.className = 'success';
+            })
+            .catch(error => {
+                resultElement.innerText = `Error: ${error.message}`;
+                resultElement.className = 'error';
+            });
+        }
+
+        // Test RSVP API
+        function testRsvpApi() {
+            const userId = document.getElementById('rsvpUserId').value;
+            const resultElement = document.getElementById('rsvpResponse');
+            resultElement.innerText = 'Loading...';
+            
+            fetch('/api/rsvp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: userId,
+                    rsvp: {
+                        attending: true,
+                        guests: 2
+                    }
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                resultElement.innerText = JSON.stringify(data, null, 2);
+                resultElement.className = 'success';
+            })
+            .catch(error => {
+                resultElement.innerText = `Error: ${error.message}`;
+                resultElement.className = 'error';
+            });
+        }
+
+        // Test overall connection
+        function testConnection() {
+            const resultElement = document.getElementById('connectionResults');
+            resultElement.innerHTML = '<p>Testing connections...</p>';
+            
+            const tests = [
+                { name: "Static content", url: "/favicon.ico" },
+                { name: "API endpoint", url: "/api/content", headers: {'X-User-ID': '123ccc9e'} }
+            ];
+            
+            let results = '';
+            
+            Promise.all(tests.map(test => {
+                return fetch(test.url, { headers: test.headers || {} })
+                    .then(response => {
+                        return { 
+                            name: test.name, 
+                            status: response.status, 
+                            ok: response.ok,
+                            statusText: response.statusText
+                        };
+                    })
+                    .catch(error => {
+                        return { 
+                            name: test.name, 
+                            error: error.message 
+                        };
+                    });
+            }))
+            .then(results => {
+                let html = '<h3>Results:</h3>';
+                results.forEach(result => {
+                    if (result.ok) {
+                        html += `<p class="success">✓ ${result.name}: Status ${result.status} (${result.statusText})</p>`;
+                    } else if (result.error) {
+                        html += `<p class="error">✗ ${result.name}: ${result.error}</p>`;
+                    } else {
+                        html += `<p class="error">✗ ${result.name}: Status ${result.status} (${result.statusText})</p>`;
+                    }
+                });
+                resultElement.innerHTML = html;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -6,7 +6,8 @@ import json
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+# Enable CORS for all routes with proper configuration
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 client = MongoClient(f"mongodb://localhost:27017/")
 db = client["wedding"]
@@ -119,15 +120,24 @@ DATA2 = {
 }
 
 
-@app.route("/api/rsvp", methods=["POST"])
+@app.route("/api/rsvp", methods=["POST", "OPTIONS"])
 def rsvp():
+    # Handle preflight OPTIONS requests
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
+        
     data = request.get_json()
     user_id = data.get("id")
     rsvp = data.get("rsvp")
+    name = None
+    
     if user_id in DATA:
         name = DATA[user_id]
     elif user_id in DATA2:
         name = DATA2[user_id]
+    else:
+        # Handle case when user ID is not found
+        return jsonify({"error": "Invalid user ID"}), 400
 
     # Store in MongoDB
     if collection.find_one({"user_id": user_id}):
@@ -138,14 +148,22 @@ def rsvp():
     return jsonify({"message": "RSVP received", "data": data}), 200
 
 
-@app.route("/api/content", methods=["GET"])
+@app.route("/api/content", methods=["GET", "OPTIONS"])
 def content():
+    # Handle preflight OPTIONS requests
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
+        
     user_id = request.headers.get("X-User-ID")
+    # Add debug logging
+    app.logger.info(f"Received request for user_id: {user_id}")
+    
     title = None
     location = None
     date = None
     timeline = None
     name = None
+    
     if user_id in DATA:
         name = DATA[user_id]
         if name:
@@ -157,22 +175,23 @@ def content():
                 "second": {"time": "05:00 ngày 26/11", "content": "Lễ đính hôn"},
                 "third": {"time": "06:00 ngày 26/11", "content": "Lễ rước dâu"},
             }
-    if user_id in DATA2:
+    elif user_id in DATA2:
         name = DATA2[user_id]
+        # Add similar configuration for DATA2 users if needed
 
-    return (
-        jsonify(
-            {
-                "name": name,
-                "title": title,
-                "location": location,
-                "date": date,
-                "timeline": timeline,
-            }
-        ),
-        200,
-    )
+    response_data = {
+        "name": name,
+        "title": title,
+        "location": location,
+        "date": date,
+        "timeline": timeline,
+    }
+    
+    # Add debug logging
+    app.logger.info(f"Sending response: {response_data}")
+    
+    return jsonify(response_data), 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5004)
+    app.run(debug=True, host="0.0.0.0", port=5000)
